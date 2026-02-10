@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model users {
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  name             String?
+  phone            String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime
+  passwordHash     String
+  role             users_role @default(USER)
+  refreshTokenHash String?
+
+  @@index([email])
+}
+
+enum users_role {
+  ADMIN
+  USER
+  MODERATOR
+}

@@ -1,30 +1,75 @@
-import type { User } from "@/api/user/userModel";
-
-export const users: User[] = [
-	{
-		id: 1,
-		name: "Alice",
-		email: "alice@example.com",
-		age: 42,
-		createdAt: new Date(),
-		updatedAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days later
-	},
-	{
-		id: 2,
-		name: "Robert",
-		email: "Robert@example.com",
-		age: 21,
-		createdAt: new Date(),
-		updatedAt: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days later
-	},
-];
+import type { UserWithSecrets } from "@/api/user/userModel";
+import { prisma } from "@/common/lib/prisma";
+import { logger } from "@/server";
 
 export class UserRepository {
-	async findAllAsync(): Promise<User[]> {
-		return users;
+	async findAllAsync(): Promise<UserWithSecrets[]> {
+		try {
+			const users = await prisma.users.findMany();
+			return users;
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.findAllAsync");
+			throw error;
+		}
 	}
 
-	async findByIdAsync(id: number): Promise<User | null> {
-		return users.find((user) => user.id === id) || null;
+	async findByIdAsync(id: number): Promise<UserWithSecrets | null> {
+		try {
+			const user = await prisma.users.findUnique({
+				where: { id },
+			});
+			return user || null;
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.findByIdAsync");
+			throw error;
+		}
 	}
+	
+  async findByEmailAsync(email: string): Promise<UserWithSecrets | null> {
+		try {
+			const user = await prisma.users.findUnique({
+				where: { email },
+			});
+			return user || null;
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.findByIdAsync");
+			throw error;
+		}
+	}
+
+  async createUserAsync(userData: UserWithSecrets): Promise<UserWithSecrets> {
+    try {
+      const newUser = await prisma.users.create({
+        data: userData,
+      });
+      return newUser;
+    } catch (error) {
+      logger.error({ error }, "Database error in UserRepository.createUser");
+      throw error;
+    }
+  }
+
+  async updateUserAsync(id: number, userData: Partial<UserWithSecrets>): Promise<UserWithSecrets> {
+    try {
+      const updatedUser = await prisma.users.update({
+        where: { id },
+        data: userData,
+      });
+      return updatedUser;
+    } catch (error) {
+      logger.error({ error }, "Database error in UserRepository.updateUserAsync");
+      throw error;
+    }
+  }
+
+  async deleteUserAsync(id: number): Promise<void> {
+    try {
+      await prisma.users.delete({
+        where: { id },
+      });
+    } catch (error) {
+      logger.error({ error }, "Database error in UserRepository.deleteUserAsync");
+      throw error;
+    }
+  }
 }

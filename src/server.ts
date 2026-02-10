@@ -27,11 +27,13 @@ app.use(rateLimiter);
 app.use(requestLogger);
 
 // Routes
-app.use("/health-check", healthCheckRouter);
-app.use("/users", userRouter);
+const apiRouter = express.Router();
+apiRouter.use("/health-check", healthCheckRouter);
+apiRouter.use("/users", userRouter);
 
 // Swagger UI
-app.use(openAPIRouter);
+apiRouter.use(openAPIRouter);
+app.use("/api", apiRouter);
 
 // Error handlers
 app.use(errorHandler());

@@ -29,3 +29,50 @@ userRegistry.registerPath({
 });
 
 userRouter.get("/:id", validateRequest(GetUserSchema), userController.getUser);
+
+userRegistry.registerPath({
+  method: "post",
+  path: "/users",
+  tags: ["User"],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: UserSchema.omit({ id: true, createdAt: true, updatedAt: true }),
+        },
+      },
+    },
+  },
+  responses: createApiResponse(z.object({ message: z.string() }), "User created successfully"),
+});
+
+userRouter.post("/", userController.createUser);
+
+userRegistry.registerPath({
+  method: "put",
+  path: "/users/{id}",
+  tags: ["User"],
+  request: {
+    params: GetUserSchema.shape.params,
+    body: {
+      content: {
+        "application/json": {
+          schema: UserSchema.omit({ id: true, createdAt: true, updatedAt: true }),
+        },
+      },
+    },
+  },
+  responses: createApiResponse(z.object({ message: z.string() }), "User updated successfully"),
+});
+
+userRouter.put("/:id", validateRequest(GetUserSchema), userController.updateUser);
+
+userRegistry.registerPath({
+  method: "delete",
+  path: "/users/{id}",
+  tags: ["User"],
+  request: { params: GetUserSchema.shape.params },
+  responses: createApiResponse(z.object({ message: z.string() }), "User deleted successfully"),
+});
+
+userRouter.delete("/:id", validateRequest(GetUserSchema), userController.deleteUser);
