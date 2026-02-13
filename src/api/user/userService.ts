@@ -59,7 +59,8 @@ export class UserService {
   // Creates a new user
   async createUser(userData: Partial<UserWithSecrets>): Promise<ServiceResponse<User|null>> {
     try {
-      logger.info("Creating user with data:", userData as any);
+      const childlog = logger.child({ userData });
+      childlog.info("Creating user with data:");
       const newUser: Partial<UserWithSecrets> = {
         name: userData.name || null,
         email: userData.email || "",
