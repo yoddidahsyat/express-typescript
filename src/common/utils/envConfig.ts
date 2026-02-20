@@ -15,6 +15,14 @@ const envSchema = z.object({
 	COMMON_RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive().default(1000),
 
 	COMMON_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(1000),
+
+	JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
+
+	JWT_REFRESH_SECRET: z.string().min(32, "JWT_REFRESH_SECRET must be at least 32 characters"),
+
+	JWT_ACCESS_EXPIRY: z.string().default("15m"),
+
+	JWT_REFRESH_EXPIRY: z.string().default("7d"),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
