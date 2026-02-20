@@ -37,6 +37,13 @@ This starter kit helps you:
 - 📝 Input checking: Request validation using Zod
 - 🧩 API browser: Interactive API docs with Swagger UI
 
+## 🔐 API Features
+
+- Users API (admin-only): CRUD endpoints under `/api/users`
+- Authentication: `/api/auth/register`, `/api/auth/login`, `/api/auth/refresh`, `/api/auth/logout`
+- Profile: `/api/auth/profile` (GET/PUT) for the authenticated user
+- Swagger UI at `/` with JWT bearer auth support
+
 ## 🛠️ Getting Started
 
 ### Video Demo
@@ -58,9 +65,13 @@ For a visual guide, watch the [video demo](https://github.com/user-attachments/a
 
 #### Step 3: 🏃‍♂️ Running the Project
 
-- Development Mode: `pnpm start:dev`
+- Development Mode: `pnpm dev`
 - Building: `pnpm build`
 - Production Mode: Set `NODE_ENV="production"` in `.env` then `pnpm build && pnpm start:prod`
+
+#### Step 4: 🌱 Seed Users
+
+- Seed one ADMIN and four USER accounts: `pnpm db:seed`
 
 ## 🤝 Feedback and Contributions
 
@@ -76,13 +87,26 @@ We'd love to hear your feedback and suggestions for further improvements. Feel f
 ├── LICENSE
 ├── package.json
 ├── pnpm-lock.yaml
+├── prisma
+│   ├── schema.prisma
+│   └── seed.ts
 ├── README.md
 ├── src
 │   ├── api
+│   │   ├── auth
+│   │   │   ├── __tests__
+│   │   │   │   └── authRouter.test.ts
+│   │   │   ├── authController.ts
+│   │   │   ├── authModel.ts
+│   │   │   ├── authRepository.ts
+│   │   │   └── authService.ts
 │   │   ├── healthCheck
 │   │   │   ├── __tests__
 │   │   │   │   └── healthCheckRouter.test.ts
 │   │   │   └── healthCheckRouter.ts
+│   │   ├── routes
+│   │   │   ├── authRoute.ts
+│   │   │   └── userRoute.ts
 │   │   └── user
 │   │       ├── __tests__
 │   │       │   ├── userRouter.test.ts
@@ -102,7 +126,10 @@ We'd love to hear your feedback and suggestions for further improvements. Feel f
 │   │   ├── __tests__
 │   │   │   ├── errorHandler.test.ts
 │   │   │   └── requestLogger.test.ts
+│   │   ├── lib
+│   │   │   └── prisma.ts
 │   │   ├── middleware
+│   │   │   ├── authMiddleware.ts
 │   │   │   ├── errorHandler.ts
 │   │   │   ├── rateLimiter.ts
 │   │   │   └── requestLogger.ts
