@@ -76,15 +76,15 @@ authRegistry.registerPath({
 });
 
 authRegistry.registerPath({
-    method: "get",
-    path: "/auth/profile",
-    tags: ["Auth"],
-    security: [
-        {
-            bearerAuth: [],
-        },
-    ],
-    responses: createApiResponse(UserSchema, "Current authenticated user"),
+	method: "get",
+	path: "/auth/profile",
+	tags: ["Auth"],
+	security: [
+		{
+			bearerAuth: [],
+		},
+	],
+	responses: createApiResponse(UserSchema, "Current authenticated user"),
 });
 
 authRegistry.registerPath({

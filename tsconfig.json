@@ -2,13 +2,11 @@
 	"compilerOptions": {
 		"target": "ESNext",
 		"module": "ESNext",
-		"baseUrl": "./src",
 		"paths": {
-			"@/*": ["*"]
+			"@/*": ["./src/*"]
 		},
-		"moduleResolution": "Node",
+		"moduleResolution": "Bundler",
 		"outDir": "dist",
-		"importsNotUsedAsValues": "remove",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,

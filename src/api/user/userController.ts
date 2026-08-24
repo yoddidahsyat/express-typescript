@@ -14,24 +14,24 @@ class UserController {
 		res.status(serviceResponse.statusCode).send(serviceResponse);
 	};
 
-  public createUser: RequestHandler = async (req: Request, res: Response) => {
-    const userData = req.body;
-    const serviceResponse = await userService.createUser(userData);
-    res.status(serviceResponse.statusCode).send(serviceResponse);
-  };
+	public createUser: RequestHandler = async (req: Request, res: Response) => {
+		const userData = req.body;
+		const serviceResponse = await userService.createUser(userData);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
 
-  public updateUser: RequestHandler = async (req: Request, res: Response) => {
-    const userData = req.body;
-    const id = Number.parseInt(req.params.id as string, 10);
-    const serviceResponse = await userService.updateUser(id, userData);
-    res.status(serviceResponse.statusCode).send(serviceResponse);
-  };
-  
-  public deleteUser: RequestHandler = async (req: Request, res: Response) => {
-    const id = Number.parseInt(req.params.id as string, 10);
-    const serviceResponse = await userService.deleteUser(id);
-    res.status(serviceResponse.statusCode).send(serviceResponse);
-  };
+	public updateUser: RequestHandler = async (req: Request, res: Response) => {
+		const userData = req.body;
+		const id = Number.parseInt(req.params.id as string, 10);
+		const serviceResponse = await userService.updateUser(id, userData);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
+
+	public deleteUser: RequestHandler = async (req: Request, res: Response) => {
+		const id = Number.parseInt(req.params.id as string, 10);
+		const serviceResponse = await userService.deleteUser(id);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
 }
 
 export const userController = new UserController();

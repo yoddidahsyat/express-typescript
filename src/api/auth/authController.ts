@@ -6,7 +6,7 @@ import { UserService } from "../user/userService";
 
 class AuthController {
 	private authService: AuthService;
-  private userService: UserService;
+	private userService: UserService;
 
 	constructor() {
 		this.authService = new AuthService();
@@ -132,12 +132,12 @@ class AuthController {
 		res.status(serviceResponse.statusCode).send(serviceResponse);
 	};
 
-  public updateProfile: RequestHandler = async (req: Request, res: Response) => {
-    const userData = req.body;
-    const userId = (req.user as TokenPayload).userId;
-    const serviceResponse = await this.userService.updateUser(userId, userData);
-    res.status(serviceResponse.statusCode).send(serviceResponse);
-  }
+	public updateProfile: RequestHandler = async (req: Request, res: Response) => {
+		const userData = req.body;
+		const userId = (req.user as TokenPayload).userId;
+		const serviceResponse = await this.userService.updateUser(userId, userData);
+		res.status(serviceResponse.statusCode).send(serviceResponse);
+	};
 }
 
 export const authController = new AuthController();

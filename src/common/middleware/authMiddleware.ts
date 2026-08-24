@@ -22,7 +22,7 @@ export const authenticateJwt = async (req: Request, res: Response, next: NextFun
 	try {
 		// Extract token from Authorization header
 		const authHeader = req.headers.authorization;
-		if (!authHeader || !authHeader.startsWith("Bearer ")) {
+		if (!authHeader?.startsWith("Bearer ")) {
 			res.status(401).json({
 				success: false,
 				message: "Missing or invalid Authorization header",
@@ -41,7 +41,7 @@ export const authenticateJwt = async (req: Request, res: Response, next: NextFun
 		// If refreshTokenHash is null it means the user logged out and access tokens should be invalidated.
 		const repo = new AuthRepository();
 		const user = await repo.findByIdAsync(decoded.userId);
-		if (!user || !user.refreshTokenHash) {
+		if (!user?.refreshTokenHash) {
 			res.status(401).json({
 				success: false,
 				message: "User session invalidated",

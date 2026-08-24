@@ -17,9 +17,7 @@ export interface TokenResponse {
 export class AuthService {
 	private authRepository: AuthRepository;
 
-	constructor(
-		repository: AuthRepository = new AuthRepository(),
-	) {
+	constructor(repository: AuthRepository = new AuthRepository()) {
 		this.authRepository = repository;
 	}
 
@@ -175,7 +173,7 @@ export class AuthService {
 
 			// Find user and verify refresh token hash
 			const user = await this.authRepository.findByIdAsync(payload.userId);
-			if (!user || !user.refreshTokenHash) {
+			if (!user?.refreshTokenHash) {
 				return ServiceResponse.failure("Invalid or expired refresh token", null, StatusCodes.UNAUTHORIZED);
 			}
 
@@ -240,5 +238,4 @@ export class AuthService {
 			return ServiceResponse.failure("An error occurred while fetching user.", null, StatusCodes.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 }

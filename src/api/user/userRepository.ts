@@ -24,8 +24,8 @@ export class UserRepository {
 			throw error;
 		}
 	}
-	
-  async findByEmailAsync(email: string): Promise<UserWithSecrets | null> {
+
+	async findByEmailAsync(email: string): Promise<UserWithSecrets | null> {
 		try {
 			const user = await prisma.users.findUnique({
 				where: { email },
@@ -37,39 +37,39 @@ export class UserRepository {
 		}
 	}
 
-  async createUserAsync(userData: UserWithSecrets): Promise<UserWithSecrets> {
-    try {
-      const newUser = await prisma.users.create({
-        data: userData,
-      });
-      return newUser;
-    } catch (error) {
-      logger.error({ error }, "Database error in UserRepository.createUser");
-      throw error;
-    }
-  }
+	async createUserAsync(userData: UserWithSecrets): Promise<UserWithSecrets> {
+		try {
+			const newUser = await prisma.users.create({
+				data: userData,
+			});
+			return newUser;
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.createUser");
+			throw error;
+		}
+	}
 
-  async updateUserAsync(id: number, userData: Partial<UserWithSecrets>): Promise<UserWithSecrets> {
-    try {
-      const updatedUser = await prisma.users.update({
-        where: { id },
-        data: userData,
-      });
-      return updatedUser;
-    } catch (error) {
-      logger.error({ error }, "Database error in UserRepository.updateUserAsync");
-      throw error;
-    }
-  }
+	async updateUserAsync(id: number, userData: Partial<UserWithSecrets>): Promise<UserWithSecrets> {
+		try {
+			const updatedUser = await prisma.users.update({
+				where: { id },
+				data: userData,
+			});
+			return updatedUser;
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.updateUserAsync");
+			throw error;
+		}
+	}
 
-  async deleteUserAsync(id: number): Promise<void> {
-    try {
-      await prisma.users.delete({
-        where: { id },
-      });
-    } catch (error) {
-      logger.error({ error }, "Database error in UserRepository.deleteUserAsync");
-      throw error;
-    }
-  }
+	async deleteUserAsync(id: number): Promise<void> {
+		try {
+			await prisma.users.delete({
+				where: { id },
+			});
+		} catch (error) {
+			logger.error({ error }, "Database error in UserRepository.deleteUserAsync");
+			throw error;
+		}
+	}
 }
